@@ -1,0 +1,19 @@
+{
+  "name": "telegrambotbcc",
+  "version": "1.0.0",
+  "description": "Um bot de telegram para informar qual e a proxima aula do curso de ciencia da computacao da pucpr",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allanvobraun/TelegramBotBcc.git"
+  },
+  "author": "Allan Braun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/allanvobraun/TelegramBotBcc/issues"
+  },
+  "homepage": "https://github.com/allanvobraun/TelegramBotBcc#readme"
+}
