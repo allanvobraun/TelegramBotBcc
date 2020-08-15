@@ -1,12 +1,14 @@
-import { bot } from './init_bot.js';
+import { bot } from "./inicializadores/init_bot.js";
 
 export class Controller {
-
+  // /echo mensagem
   static echo(msg, match) {
     const chatId = msg.chat.id;
-    const resp = match[1]; // the captured "whatever"
+    const resp = match[1];
 
-    // send back the matched "whatever" to the chat
+    // send back the matched to the chat
     bot.sendMessage(chatId, resp);
   }
+
+  static
 }
