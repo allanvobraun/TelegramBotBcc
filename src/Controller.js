@@ -3,19 +3,20 @@ import { db } from "./inicializadores/init_firebase.js"
 
 export class Controller {
   // /echo mensagem
-  static echo(msg, match) {
+  static  async echo(msg, match) {
     const chatId = msg.chat.id;
     const resp = match[1];
 
     const aulasRef = db.collection('aulas');
-    aulasRef.get().then(snapshot => {
+    const data = [];
+    await aulasRef.get().then(snapshot => {
       snapshot.docs.forEach( doc => {
-        console.log(doc.data());
+        data.push(doc.data().nome)
       })
     })
 
     // send back the matched to the chat
-    bot.sendMessage(chatId, resp);
+    bot.sendMessage(chatId, data.toString());
   }
 
 }
