@@ -1,0 +1,14 @@
+aulas/3FATtxoVhgVen8l5anFZ : Métodos Quantitativos para Computação
+
+aulas/7Q0wT5lnTPyVFjJ97s4Q : Programação Distribuída, Paralela e Concorrente
+
+aulas/Jvqcp6lv2L8yBnHpfyNe : Modelagem de Sistemas Computacionais
+
+aulas/Rm11Lb2PY1W9Qacyh27R :  Construção de Interpretadores
+
+aulas/dVTc7PMDsejLSncUXyVg : Resolução de Problemas com Grafos
+
+
+
+
+
