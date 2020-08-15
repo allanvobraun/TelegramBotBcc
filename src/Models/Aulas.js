@@ -1,24 +1,37 @@
 import { BaseModel } from "./BaseModel.js";
+import { DiasSemana } from "./DiasSemana.js";
+import { diaSemana, proximoHorarioDeAula } from "../helpers/dates.js";
 
 class Aulas extends BaseModel {
-  constructor(params) {
-    super(params);
+  constructor() {
+    super();
+    this.diasSemanaModel = new DiasSemana();
   }
 
-  static async getAll() {
-    const docs = await this.collectionReference.get().then( snapshot => {
-      return snapshot.docs.map(doc => doc.data());
+  async getAll() {
+    const docs = await this.collectionReference.get().then((snapshot) => {
+      return snapshot.docs.map((doc) => doc.data());
     });
     return docs;
   }
+
+  async getProximaAulaData() {
+    // const diaHoje = diaSemana();
+    const diaHoje = "segunda";
+
+    return await this.diasSemanaModel
+      .getDiaAulasHorariosSnap(diaHoje)
+      .then((aulasArray) => {
+        return aulasArray
+          .find((aula) => {
+            return aula.data().hora_inicio === proximoHorarioDeAula();
+          })
+          .data();
+      });
+  }
 }
-
-// const aulas = new Aulas();
-// console.log('1');
-// aulas.getAll().then( result => {
-//   console.log('foi');
-//   console.log(result);
-// })
-// console.log('2');
-
-
+const aula = new Aulas();
+aula.getProximaAulaData().then((retorno) => {
+  console.log("retornou");
+  console.log(retorno);
+});

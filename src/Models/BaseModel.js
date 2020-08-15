@@ -4,7 +4,9 @@ export class BaseModel {
 
   constructor() {
     this.collectionName = this.constructor.name.toLowerCase();
-    this.collectionReference = db.collection(this.collectionName);
-    
+  }
+
+  get collectionReference() {
+    return db.collection(this.collectionName);
   }
 }

@@ -1,0 +1,3 @@
+/aulas => devolve todas as aulas do semestre
+/proxima => devolve a proxima aula 
+/agora => devolve a aula que esta rolando agora
