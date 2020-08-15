@@ -1,5 +1,4 @@
 import { bot } from "./inicializadores/init_bot.js";
-import { db } from "./inicializadores/init_firebase.js"
 
 export class Controller {
   // /echo mensagem
@@ -15,7 +14,6 @@ export class Controller {
       })
     })
 
-    // send back the matched to the chat
     bot.sendMessage(chatId, data.toString());
   }
 
