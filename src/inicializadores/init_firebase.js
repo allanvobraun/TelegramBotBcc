@@ -1,14 +1,14 @@
-import { initializeApp, firestore } from "firebase";
-import "firebase/firestore";
+import admin from 'firebase-admin';
 import dotenv from 'dotenv';
+import { createRequire } from 'module';
 dotenv.config();
+const require = createRequire(import.meta.url);
 
+const serviceAccount = require("../../data/telegrambotbcc-firebase-adminsdk-xcrhy-9448af7119.json");
 
-// Initialize Cloud Firestore through Firebase
-initializeApp({
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: process.env.FIREBASE_DATABASE_URL
 });
 
-export const db = firestore();
+export const db = admin.firestore();

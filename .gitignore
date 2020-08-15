@@ -122,3 +122,4 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
 
 src/insert.js
+data/telegrambotbcc-firebase-adminsdk-xcrhy-9448af7119.json
