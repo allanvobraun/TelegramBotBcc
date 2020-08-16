@@ -2,7 +2,6 @@ const horario = {
   hora_fim: "20:30",
   hora_inicio: "19:45",
 };
-
 export class HorarioMensagemResource {
   constructor(horarioObject) {
     this.horario = horarioObject;

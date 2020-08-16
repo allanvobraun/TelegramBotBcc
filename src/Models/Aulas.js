@@ -19,17 +19,22 @@ export class Aulas extends BaseModel {
   }
 
   async getAulaData(diaSemana, horarioInicio) {
-    const aulasArray = await this.diasSemanaModel.getDiaAulasHorariosSnap(
+    const aulasCollectionRef = await this.diasSemanaModel.getDiaAulasHorariosRef(
       diaSemana
     );
 
-    const aula = aulasArray.find((aula) => {
-      return aula.data().hora_inicio === horarioInicio;
-    });
-    if (typeof aula === "undefined") {
+    const aulaHorarioDoc = await aulasCollectionRef
+      .where("hora_inicio", "==", horarioInicio)
+      .get()
+      .then((snapshot) => {
+        return snapshot.docs[0];
+      });
+
+    if (typeof aulaHorarioDoc === "undefined") {
       throw new AulaNaoEncontradaError(diaSemana, horarioInicio);
     }
-    return aula.data();
+    
+    return aulaHorarioDoc.data();
   }
 
   async getProximaAulaData() {

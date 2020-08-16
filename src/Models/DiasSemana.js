@@ -42,6 +42,9 @@ export class DiasSemana extends BaseModel {
 }
 
 // const aula = new DiasSemana();
-// aula.getDiaAulasHorariosSnap("segunda").then((responde) => {
-//   console.log(responde);
+// aula.getDiaAulasHorariosRef("segunda").then((responde) => {
+//   responde.where('hora_inicio', "==", "5:00").get().then(resp => {
+//     console.log(resp.docs[0].data());
+    
+//   })
 // });

@@ -26,6 +26,7 @@ export class Controller {
       aula = await proxima.aula.get().then((aula) => {
         return aula.data();
       });
+      
     } catch (error) {
       console.log(error);
       bot.sendMessage(chatId, error.toString());
