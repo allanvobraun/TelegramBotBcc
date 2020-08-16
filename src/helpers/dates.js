@@ -65,4 +65,5 @@ function proximoHorarioDeAula() {
   return removerSegundos(horario_pivo);
 }
 
+
 export { diaSemana, proximoHorarioDeAula };

@@ -7,6 +7,8 @@ export class Aulas extends BaseModel {
   constructor() {
     super();
     this.diasSemanaModel = new DiasSemana();
+    //this.diaHoje = diaSemana();
+    this.diaHoje = "segunda";
   }
 
   async getAll() {
@@ -16,29 +18,25 @@ export class Aulas extends BaseModel {
     return docs;
   }
 
-  async getProximaAulaData() {
-    // const diaHoje = diaSemana();
-    const diaHoje = "segunda";
+  async getAulaData(diaSemana, horarioInicio) {
+    const aulasArray = await this.diasSemanaModel.getDiaAulasHorariosSnap(
+      diaSemana
+    );
 
-    return await this.diasSemanaModel
-      .getDiaAulasHorariosSnap(diaHoje)
-      .then((aulasArray) => {
-        return aulasArray
-          .find((aula) => {
-            return aula.data().hora_inicio === proximoHorarioDeAula();
-          })
-          .data();
-      })
-      .catch((error) => {
-        if (error instanceof TypeError) {
-          console.log('entrou');
-          throw new AulaNaoEncontradaError();
-        }
-      });
+    const aula = aulasArray.find((aula) => {
+      return aula.data().hora_inicio === horarioInicio;
+    });
+    if (typeof aula === "undefined") {
+      throw new AulaNaoEncontradaError(diaSemana, horarioInicio);
+    }
+    return aula.data();
+  }
+
+  async getProximaAulaData() {
+    return await this.getAulaData(this.diaHoje, proximoHorarioDeAula());
+  }
+
+  async getAtualAulaData() {
+    return await this.getAulaData(this.diaHoje, proximoHorarioDeAula());
   }
 }
-// const aula = new Aulas();
-// aula.getProximaAulaData().then((retorno) => {
-//   console.log("retornou");
-//   console.log(retorno);
-// });

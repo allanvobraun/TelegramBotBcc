@@ -18,7 +18,7 @@ export class DiasSemana extends BaseModel {
   }
 
   // Devolve uma lista com todas as aulas dentro de um dia com os seus horarios
-  async getDiaAulasHorariosSnap(diaSemana) {
+  async getDiaAulasHorariosRef(diaSemana) {
     let diaRef;
     try {
       diaRef = (await this.getDiaSnap(diaSemana)).ref;
@@ -28,9 +28,20 @@ export class DiasSemana extends BaseModel {
       }
     }
     const aulasHoraCollectionRef = diaRef.collection("aulas-hora");
-    return aulasHoraCollectionRef.get().then((snapshot) => {
+    return aulasHoraCollectionRef;
+  }
+
+  // Devolve uma lista com todas as aulas dentro de um dia com os seus horarios
+  async getDiaAulasHorariosSnap(diaSemana) {
+    const aulasRef = await this.getDiaAulasHorariosRef(diaSemana);
+
+    return aulasRef.get().then((snapshot) => {
       return snapshot.docs;
     });
   }
 }
 
+// const aula = new DiasSemana();
+// aula.getDiaAulasHorariosSnap("segunda").then((responde) => {
+//   console.log(responde);
+// });

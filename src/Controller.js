@@ -27,7 +27,7 @@ export class Controller {
         return aula.data();
       });
     } catch (error) {
-      console.log(error.name);
+      console.log(error);
       bot.sendMessage(chatId, error.toString());
       return;
     }
