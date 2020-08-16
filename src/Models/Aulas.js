@@ -1,6 +1,7 @@
 import { BaseModel } from "./BaseModel.js";
 import { DiasSemana } from "./DiasSemana.js";
 import { AulaNaoEncontradaError } from "../Errors/AulaNaoEncontradaError.js";
+import { NaoEstaEmAulaError } from "../Errors/NaoEstaEmAulaError.js";
 import { diaSemana, horaAtual } from "../helpers/dates.js";
 import { ComparadorHorarios } from "../helpers/ComparadorHorarios.js";
 
@@ -9,8 +10,8 @@ export class Aulas extends BaseModel {
     super();
     this.diasSemanaModel = new DiasSemana();
 
-    this.diaHoje = "segunda";
-    this.horaAgora = "20:14:00";
+    this.diaHoje = "quinta";
+    this.horaAgora = "22:14:00";
     //this.diaHoje = diaSemana();
     // this.horaAgora = horaAtual();
     this.comparadorHorarios = new ComparadorHorarios(this.horaAgora);
@@ -23,7 +24,7 @@ export class Aulas extends BaseModel {
     return docs;
   }
 
-  async getAulaData(diaSemana, horarioInicio) {
+  async getAulaDocSnap(diaSemana, horarioInicio) {
     const aulasCollectionRef = await this.diasSemanaModel.getDiaAulasHorariosRef(
       diaSemana
     );
@@ -35,18 +36,28 @@ export class Aulas extends BaseModel {
         return snapshot.docs[0];
       });
 
-    if (typeof aulaHorarioDoc === "undefined") {
-      throw new AulaNaoEncontradaError(diaSemana, horarioInicio);
-    }
-    
-    return aulaHorarioDoc.data();
+    return aulaHorarioDoc;
   }
 
   async getProximaAulaData() {
-    return await this.getAulaData(this.diaHoje, this.comparadorHorarios.getProximoHorarioAula());
+    const horario = this.comparadorHorarios.getProximoHorarioAula();
+    const aulaSnap = await this.getAulaDocSnap(this.diaHoje, horario);
+
+    if (typeof aulaSnap === "undefined") {
+      throw new AulaNaoEncontradaError(this.diaHoje, horario);
+    }
+
+    return aulaSnap.data();
   }
 
-  // async getAtualAulaData() {
-  //   return await this.getAulaData(this.diaHoje, proximoHorarioDeAula());
-  // }
+  async getAtualAulaData() {
+    const horario = this.comparadorHorarios.getHoraInicioAula();
+    const aulaSnap = await this.getAulaDocSnap(this.diaHoje, horario);
+
+    if (typeof aulaSnap === "undefined") {
+      throw new NaoEstaEmAulaError();
+    }
+
+    return aulaSnap.data();
+  }
 }
