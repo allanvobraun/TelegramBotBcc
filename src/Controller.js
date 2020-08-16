@@ -3,6 +3,7 @@ import { Aulas } from "./Models/Aulas.js";
 import { mensagemCarregando } from "./helpers/bot_helpers.js";
 import { AulaMensagemResource } from "./Resources/AulaMensagemResource.js";
 import { HorarioMensagemResource } from "./Resources/HorarioMensagemResource.js";
+import { AulaComHorarioResource } from "./Resources/AulaComHorarioResource.js";
 
 export class Controller {
   // /echo mensagem
@@ -17,13 +18,13 @@ export class Controller {
     const chatId = telegramMessager.chat.id;
     mensagemCarregando(chatId);
 
-    const aulas = new Aulas();
-    let aula;
-    let proxima;
+    const aulasModel = new Aulas();
+    let aulaHorarios;
+    let proximaAula;
 
     try {
-      proxima = await aulas.getProximaAulaData();
-      aula = await proxima.aula.get().then((aula) => {
+      aulaHorarios = await aulasModel.getProximaAulaData();
+      proximaAula = await aulaHorarios.aula.get().then((aula) => {
         return aula.data();
       });
     } catch (error) {
@@ -31,12 +32,10 @@ export class Controller {
       bot.sendMessage(chatId, error.toString());
       return;
     }
+    
+    const resposta = new AulaComHorarioResource(proximaAula, aulaHorarios);
 
-    const aulaMensagem = new AulaMensagemResource(aula);
-    const horarioMensagem = new HorarioMensagemResource(proxima);
-    const resposta = `${aulaMensagem}\n${horarioMensagem}`;
-
-    bot.sendMessage(chatId, resposta);
+    bot.sendMessage(chatId, resposta.toString());
   }
 
   static async agora(telegramMessager, match) {
@@ -60,10 +59,8 @@ export class Controller {
       return;
     }
 
-    const aulaMensagem = new AulaMensagemResource(aulaAtual);
-    const horarioMensagem = new HorarioMensagemResource(aulaHorarios);
-    const resposta = `${aulaMensagem}\n${horarioMensagem}`;
+    const resposta = new AulaComHorarioResource(aulaAtual, aulaHorarios);
 
-    bot.sendMessage(chatId, resposta);
+    bot.sendMessage(chatId, resposta.toString());
   }
 }
