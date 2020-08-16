@@ -10,10 +10,10 @@ export class Aulas extends BaseModel {
     super();
     this.diasSemanaModel = new DiasSemana();
 
-    this.diaHoje = "quinta";
-    this.horaAgora = "22:14:00";
-    //this.diaHoje = diaSemana();
-    // this.horaAgora = horaAtual();
+    // this.diaHoje = "quinta";
+    // this.horaAgora = "22:14:00";
+    this.diaHoje = diaSemana();
+    this.horaAgora = horaAtual();
     this.comparadorHorarios = new ComparadorHorarios(this.horaAgora);
   }
 
