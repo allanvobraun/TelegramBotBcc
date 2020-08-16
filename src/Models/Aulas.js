@@ -1,14 +1,19 @@
 import { BaseModel } from "./BaseModel.js";
 import { DiasSemana } from "./DiasSemana.js";
 import { AulaNaoEncontradaError } from "../Errors/AulaNaoEncontradaError.js";
-import { diaSemana, proximoHorarioDeAula } from "../helpers/dates.js";
+import { diaSemana, horaAtual } from "../helpers/dates.js";
+import { ComparadorHorarios } from "../helpers/ComparadorHorarios.js";
 
 export class Aulas extends BaseModel {
   constructor() {
     super();
     this.diasSemanaModel = new DiasSemana();
-    //this.diaHoje = diaSemana();
+
     this.diaHoje = "segunda";
+    this.horaAgora = "20:14:00";
+    //this.diaHoje = diaSemana();
+    // this.horaAgora = horaAtual();
+    this.comparadorHorarios = new ComparadorHorarios(this.horaAgora);
   }
 
   async getAll() {
@@ -38,10 +43,10 @@ export class Aulas extends BaseModel {
   }
 
   async getProximaAulaData() {
-    return await this.getAulaData(this.diaHoje, proximoHorarioDeAula());
+    return await this.getAulaData(this.diaHoje, this.comparadorHorarios.getProximoHorarioAula());
   }
 
-  async getAtualAulaData() {
-    return await this.getAulaData(this.diaHoje, proximoHorarioDeAula());
-  }
+  // async getAtualAulaData() {
+  //   return await this.getAulaData(this.diaHoje, proximoHorarioDeAula());
+  // }
 }

@@ -1,13 +1,13 @@
 export class BaseError extends Error {
-  constructor(message) {
+  constructor(message, mostrarErrorHeader = true) {
     super(message);
     this.name = this.constructor.name;
+    this.header = mostrarErrorHeader ? "🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑\n" : "";
     Error.captureStackTrace(this, this.constructor);
   }
 
   toString() {
-    const header = "🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑\n";
-    return `${header}${this.nameLegivel}\n${header}${this.message}`;
+    return `${this.header}${this.nameLegivel}\n${this.header}${this.message}`;
   }
 
   get nameLegivel() {
