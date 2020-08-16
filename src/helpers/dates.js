@@ -47,7 +47,7 @@ function proximoHorarioDeAula() {
     "21:30:00",
     "22:15:00",
   ];
-  const horaAgora = "22:00:00";
+  const horaAgora = "19:00:00";
 
   checarPassouDoHorario(horarios, horaAgora);
 
