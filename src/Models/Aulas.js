@@ -1,5 +1,6 @@
 import { BaseModel } from "./BaseModel.js";
 import { DiasSemana } from "./DiasSemana.js";
+import { AulaNaoEncontradaError } from "../Errors/AulaNaoEncontradaError.js";
 import { diaSemana, proximoHorarioDeAula } from "../helpers/dates.js";
 
 export class Aulas extends BaseModel {
@@ -22,8 +23,6 @@ export class Aulas extends BaseModel {
     return await this.diasSemanaModel
       .getDiaAulasHorariosSnap(diaHoje)
       .then((aulasArray) => {
-        console.log(aulasArray);
-        
         return aulasArray
           .find((aula) => {
             return aula.data().hora_inicio === proximoHorarioDeAula();
@@ -31,7 +30,10 @@ export class Aulas extends BaseModel {
           .data();
       })
       .catch((error) => {
-        console.log("erro aqui");
+        if (error instanceof TypeError) {
+          console.log('entrou');
+          throw new AulaNaoEncontradaError();
+        }
       });
   }
 }
