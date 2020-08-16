@@ -17,7 +17,7 @@ export class Aulas extends BaseModel {
     this.comparadorHorarios = new ComparadorHorarios(this.horaAgora);
   }
 
-  async getAll() {
+  async getAllData() {
     const docs = await this.collectionReference.get().then((snapshot) => {
       return snapshot.docs.map((doc) => doc.data());
     });

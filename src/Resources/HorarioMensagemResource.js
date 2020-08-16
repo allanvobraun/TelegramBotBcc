@@ -1,9 +1,8 @@
-const horario = {
-  hora_fim: "20:30",
-  hora_inicio: "19:45",
-};
-export class HorarioMensagemResource {
+import { BaseMensagemResource } from "./BaseMensagemResource.js";
+
+export class HorarioMensagemResource extends BaseMensagemResource {
   constructor(horarioObject) {
+    super();
     this.horario = horarioObject;
   }
 

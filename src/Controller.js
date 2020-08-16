@@ -32,7 +32,7 @@ export class Controller {
       bot.sendMessage(chatId, error.toString());
       return;
     }
-    
+
     const resposta = new AulaComHorarioResource(proximaAula, aulaHorarios);
 
     bot.sendMessage(chatId, resposta.toString());
@@ -52,7 +52,6 @@ export class Controller {
       aulaAtual = await aulaHorarios.aula.get().then((aula) => {
         return aula.data();
       });
-
     } catch (error) {
       console.log(error);
       bot.sendMessage(chatId, error.toString());
@@ -60,6 +59,18 @@ export class Controller {
     }
 
     const resposta = new AulaComHorarioResource(aulaAtual, aulaHorarios);
+
+    bot.sendMessage(chatId, resposta.toString());
+  }
+
+  static async aulas(telegramMessager, match) {
+    const chatId = telegramMessager.chat.id;
+    mensagemCarregando(chatId);
+    
+    const aulasModel = new Aulas();
+    const aulasArray = await aulasModel.getAllData();
+
+    const resposta = AulaMensagemResource.collection(aulasArray);
 
     bot.sendMessage(chatId, resposta.toString());
   }
