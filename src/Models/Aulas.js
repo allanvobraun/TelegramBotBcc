@@ -2,7 +2,7 @@ import { BaseModel } from "./BaseModel.js";
 import { DiasSemana } from "./DiasSemana.js";
 import { diaSemana, proximoHorarioDeAula } from "../helpers/dates.js";
 
-class Aulas extends BaseModel {
+export class Aulas extends BaseModel {
   constructor() {
     super();
     this.diasSemanaModel = new DiasSemana();
@@ -22,16 +22,21 @@ class Aulas extends BaseModel {
     return await this.diasSemanaModel
       .getDiaAulasHorariosSnap(diaHoje)
       .then((aulasArray) => {
+        console.log(aulasArray);
+        
         return aulasArray
           .find((aula) => {
             return aula.data().hora_inicio === proximoHorarioDeAula();
           })
           .data();
+      })
+      .catch((error) => {
+        console.log("erro aqui");
       });
   }
 }
-const aula = new Aulas();
-aula.getProximaAulaData().then((retorno) => {
-  console.log("retornou");
-  console.log(retorno);
-});
+// const aula = new Aulas();
+// aula.getProximaAulaData().then((retorno) => {
+//   console.log("retornou");
+//   console.log(retorno);
+// });
