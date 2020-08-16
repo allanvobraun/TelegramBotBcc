@@ -7,7 +7,7 @@ export class Controller {
   // /echo mensagem
   static echo(msg, match) {
     const chatId = msg.chat.id;
-    const resp = match[1] + "🐧";
+    const resp ="Mesagem de teste " + "🐧";
 
     bot.sendMessage(chatId, resp);
   }
