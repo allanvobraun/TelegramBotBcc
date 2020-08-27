@@ -9,7 +9,7 @@ export class Controller {
   // /echo mensagem
   static echo(telegramMessager, match) {
     const chatId = telegramMessager.chat.id;
-    const resp = "Mesagem de teste " + "🐧";
+    const resp = "Mensagem de teste " + "🐧";
 
     bot.sendMessage(chatId, resp);
   }
